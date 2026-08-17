@@ -1,0 +1,728 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>SustainableML‑Afrasia · ACML 2026</title>
+<link rel="preconnect" href="https://fonts.googleapis.com">
+<link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+<link href="https://fonts.googleapis.com/css2?family=Source+Serif+4:ital,opsz,wght@0,8..60,500;0,8..60,600;0,8..60,700;0,8..60,800;1,8..60,500;1,8..60,600&family=Source+Sans+3:wght@400;500;600;700&family=IBM+Plex+Mono:wght@500;600;700&display=swap" rel="stylesheet">
+<style>
+  :root{
+    --ink:#1C2430;
+    --night:#0F1C30;
+    --night-2:#1B2E4A;
+    --night-3:#28405F;
+    --paper:#F7F2E7;
+    --paper-deep:#EDE5D0;
+    --card:#FFFDF8;
+    --gold:#A9812F;
+    --gold-deep:#856421;
+    --gold-light:#C9A85B;
+    --burgundy:#7A2331;
+    --burgundy-deep:#5B1922;
+    --sage:#3F5B47;
+    --sage-deep:#2E4534;
+    --ink-soft:#565F6E;
+    --ink-soft-2:#767F8C;
+    --line:#DFD5B8;
+    --line-dark:#2C4266;
+    --white:#FFFFFF;
+    --grad: linear-gradient(90deg, var(--sage) 0%, var(--gold) 52%, var(--burgundy) 100%);
+    --grad-soft: linear-gradient(90deg, rgba(63,91,71,0.14), rgba(169,129,47,0.14));
+  }
+  *{box-sizing:border-box; margin:0; padding:0;}
+  html{scroll-behavior:smooth;}
+  body{
+    font-family:'Source Sans 3', Arial, sans-serif;
+    color:var(--ink);
+    background:var(--white);
+    font-size:16px;
+    line-height:1.68;
+    -webkit-font-smoothing:antialiased;
+  }
+  h1,h2,h3,h4{font-family:'Source Serif 4', Georgia, serif; color:var(--ink); font-weight:600;}
+  em{font-style:italic; font-family:'Source Serif 4', Georgia, serif;}
+  a{color:var(--burgundy-deep);}
+  .wrap{max-width:1140px; margin:0 auto; padding:0 24px;}
+  .mono{font-family:'IBM Plex Mono', monospace; font-variant-numeric:tabular-nums;}
+  :focus-visible{outline:2px solid var(--sage); outline-offset:3px;}
+
+  @media (prefers-reduced-motion: reduce){ *{animation:none !important; transition:none !important;} }
+
+  /* ---------- signature: signal bars ---------- */
+  .mark{display:inline-flex; align-items:flex-end; gap:2.5px; height:13px; margin-right:9px; vertical-align:middle;}
+  .mark i{display:block; width:3px; border-radius:1px; background:var(--gold);}
+  .mark i:nth-child(1){height:4px;}
+  .mark i:nth-child(2){height:7px; background:var(--sage);}
+  .mark i:nth-child(3){height:10px; background:var(--gold);}
+  .mark i:nth-child(4){height:13px; background:var(--burgundy);}
+  .mark.on-dark i:nth-child(1){background:#4F7FA8;}
+  .mark.on-dark i:nth-child(2){background:#6E9A7C;}
+  .mark.on-dark i:nth-child(3){background:#D3B876;}
+  .mark.on-dark i:nth-child(4){background:#C08088;}
+  .mark.pulse i{animation:pulseBar 2.6s ease-in-out infinite;}
+  .mark.pulse i:nth-child(2){animation-delay:.15s;}
+  .mark.pulse i:nth-child(3){animation-delay:.3s;}
+  .mark.pulse i:nth-child(4){animation-delay:.45s;}
+  @keyframes pulseBar{ 0%,100%{opacity:.55;} 50%{opacity:1;} }
+
+  .topbar{background:var(--night); color:#fff; font-size:13px; padding:9px 0; border-bottom:1px solid rgba(255,255,255,0.06);}
+  .topbar .wrap{display:flex; justify-content:space-between; align-items:center; flex-wrap:wrap; gap:10px;}
+  .topbar span{color:#A9BBD1;}
+
+  /* ---------- hero ---------- */
+  .banner{
+    position:relative; overflow:hidden;
+    background:
+      radial-gradient(ellipse 780px 460px at 88% -8%, #26456C 0%, transparent 62%),
+      radial-gradient(ellipse 620px 420px at -6% 108%, #1C3352 0%, transparent 58%),
+      linear-gradient(178deg, #0B1524 0%, #101F36 100%);
+    color:#fff; padding:60px 0 0;
+  }
+  .banner::after{
+    content:""; position:absolute; left:0; right:0; bottom:0; height:3px;
+    background:var(--grad);
+  }
+  .signal-field{
+    position:absolute; inset:0; opacity:.5; pointer-events:none;
+    background-image: radial-gradient(circle, rgba(159,187,214,0.16) 1px, transparent 1.4px);
+    background-size:26px 26px;
+    mask-image: radial-gradient(ellipse 800px 500px at 78% 10%, black 10%, transparent 72%);
+  }
+  .banner-inner{position:relative; padding-bottom:0; display:grid; grid-template-columns:1.32fr 0.9fr; gap:12px; align-items:center;}
+  @media(max-width:920px){ .banner-inner{grid-template-columns:1fr; padding-bottom:24px;} }
+  .banner .eyebrow{
+    font-size:12.5px; color:#D3B876; letter-spacing:0.15em; margin-bottom:16px;
+    text-transform:uppercase; font-weight:600; font-family:'IBM Plex Mono', monospace;
+    display:flex; align-items:center;
+  }
+  .banner h1{color:#fff; font-size:clamp(27px,3.4vw,40px); line-height:1.22; max-width:700px; font-weight:700; letter-spacing:-0.01em;}
+  .banner h1 em{color:#D3B876; font-weight:600;}
+  .banner .subtitle{color:#C7D4E4; font-size:17px; margin-top:15px; max-width:590px; font-weight:400;}
+  .banner .meta-row{
+    margin-top:28px; display:flex; flex-wrap:wrap; gap:16px 26px; font-size:13.6px; color:#DCE5F0;
+    padding-bottom:40px; border-bottom:1px solid rgba(255,255,255,0.1);
+  }
+  .banner .meta-row span{display:flex; align-items:center; gap:7px;}
+  .banner-text{max-width:700px; padding:4px 0 40px;}
+
+  /* network diagram signature */
+  .net-diagram{position:relative; height:340px; display:flex; align-items:center; justify-content:center;}
+  .net-diagram svg{width:100%; height:100%; max-width:360px;}
+  .net-node-label{font-family:'IBM Plex Mono',monospace; font-size:10.5px; letter-spacing:0.06em; fill:#B9CADE;}
+  .net-dash{stroke-dasharray:5 6; animation:dashMove 3.4s linear infinite;}
+  @keyframes dashMove{ to{ stroke-dashoffset:-44; } }
+  .net-pulse{animation:nodePulse 2.8s ease-in-out infinite;}
+  @keyframes nodePulse{ 0%,100%{opacity:.7; r:5.5;} 50%{opacity:1; r:7;} }
+
+  .submit-cta{
+    display:inline-flex; align-items:center; gap:8px;
+    background:var(--gold); color:#221403; font-weight:700; font-size:13.5px;
+    padding:11px 20px; border-radius:2px; text-decoration:none;
+    transition:transform 0.15s ease, box-shadow 0.15s ease, background 0.15s ease;
+    box-shadow:0 1px 2px rgba(0,0,0,0.12);
+  }
+  .submit-cta:hover{background:#D89432; transform:translateY(-1px); box-shadow:0 8px 20px rgba(198,134,42,0.32);}
+  .topbar .submit-cta{padding:7px 14px; font-size:12.5px;}
+
+  .submit-strip{
+    background:var(--paper); border-top:1px solid var(--line); border-bottom:1px solid var(--line);
+    padding:15px 0; text-align:center;
+  }
+  .submit-strip .wrap{display:flex; align-items:center; justify-content:center; gap:16px; flex-wrap:wrap;}
+  .submit-strip span.label{font-size:14px; color:var(--ink);}
+
+  .stats{background:var(--night-2); color:#fff; padding:0;}
+  .stats .wrap{display:grid; grid-template-columns:repeat(3,1fr); gap:0;}
+  @media(max-width:760px){.stats .wrap{grid-template-columns:1fr;}}
+  @media(max-width:520px){.stats .wrap{grid-template-columns:1fr;}}
+  .stat{padding:28px 22px; border-left:1px solid rgba(255,255,255,0.08);}
+  .stat:first-child{border-left:none;}
+  .stat b{
+    display:block; font-family:'IBM Plex Mono', monospace; font-size:clamp(22px,2.4vw,28px);
+    font-weight:700; color:#D3B876;
+  }
+  .stat span{font-size:12.6px; color:#AFC1D6; display:block; margin-top:5px; line-height:1.45;}
+
+  nav.tabs{
+    background:var(--white); border-bottom:1px solid var(--line);
+    position:sticky; top:0; z-index:40;
+  }
+  nav.tabs .wrap{display:flex; gap:2px; overflow-x:auto;}
+  nav.tabs a{
+    display:block; padding:14px 16px; font-size:13.3px; font-weight:600; color:var(--ink-soft);
+    text-decoration:none; white-space:nowrap; border-bottom:3px solid transparent;
+    transition:border-color 0.15s ease, color 0.15s ease;
+  }
+  nav.tabs a:hover{border-bottom:3px solid var(--gold); color:var(--sage-deep);}
+
+  section{padding:58px 0;}
+  section.alt{background:var(--paper);}
+  h2.sec-title{
+    font-size:24px; padding-bottom:13px; margin-bottom:26px; display:flex; align-items:center;
+    border-bottom:1px solid var(--line); position:relative;
+  }
+  h2.sec-title::after{ content:""; position:absolute; left:0; bottom:-1px; width:64px; height:2px; background:var(--grad); }
+  p.lede{color:var(--ink-soft); max-width:820px; margin-bottom:16px; font-size:15.5px;}
+
+  .overview-body{display:grid; grid-template-columns:1.5fr 1fr; gap:38px; align-items:start;}
+  @media(max-width:860px){.overview-body{grid-template-columns:1fr;}}
+  .overview-body p{margin-bottom:14px; font-size:15.5px;}
+  .overview-body .callout{
+    background:var(--card); border:1px solid var(--line); border-left:3px solid var(--sage);
+    padding:22px 24px; font-size:14.5px; color:var(--ink-soft);
+  }
+  .overview-body .callout b{color:var(--ink); font-family:'Fraunces'; font-weight:600; display:block; margin-bottom:9px; font-size:15.5px;}
+
+  .callout{
+    background:var(--card); border:1px solid var(--line); border-left:3px solid var(--sage);
+    padding:19px 21px; font-size:14.3px; color:var(--ink-soft); border-radius:2px;
+  }
+  .callout b{color:var(--ink); font-family:'Fraunces'; font-weight:600; display:block; margin-bottom:7px; font-size:15px;}
+  .callout ul{margin:6px 0 0 18px; padding:0;}
+  .callout li{margin-bottom:4px;}
+
+  .why-grid{display:grid; grid-template-columns:repeat(4,1fr); gap:1px; margin-top:8px; background:var(--line);
+    border:1px solid var(--line);}
+  @media(max-width:900px){.why-grid{grid-template-columns:repeat(2,1fr);}}
+  @media(max-width:520px){.why-grid{grid-template-columns:1fr;}}
+  .why-card{
+    background:var(--card);
+    padding:26px 22px; transition:background 0.15s ease;
+    position:relative;
+  }
+  .why-card::before{content:""; position:absolute; top:0; left:0; width:100%; height:3px; background:var(--sage);}
+  .why-card:nth-child(2)::before{background:var(--gold);}
+  .why-card:nth-child(3)::before{background:var(--night-3);}
+  .why-card:nth-child(4)::before{background:var(--burgundy);}
+  .why-card:hover{background:#fff;}
+  .why-card .idx{font-family:'IBM Plex Mono',monospace; font-size:11.5px; color:var(--ink-soft-2); display:block; margin-bottom:14px;}
+  .why-card h4{font-size:14.8px; font-family:'IBM Plex Sans'; color:var(--ink); margin-bottom:9px; font-weight:700;}
+  .why-card p{font-size:13.6px; color:var(--ink-soft); line-height:1.58;}
+
+  .topics-list{columns:2; column-gap:44px; margin-top:8px; max-width:960px;}
+  @media(max-width:680px){.topics-list{columns:1;}}
+  .topics-list .topic-item{break-inside:avoid; margin-bottom:22px; padding-left:16px; border-left:2px solid var(--line);}
+  .topics-list h4{font-size:15px; font-family:'IBM Plex Sans'; color:var(--ink); margin-bottom:4px; font-weight:700;}
+  .topics-list p{font-size:13.8px; color:var(--ink-soft);}
+
+  .guide-grid{display:grid; grid-template-columns:repeat(3,1fr); gap:22px; margin-top:10px;}
+  @media(max-width:900px){.guide-grid{grid-template-columns:repeat(2,1fr);}}
+  @media(max-width:600px){.guide-grid{grid-template-columns:1fr;}}
+  .guide-card{background:var(--card); border:1px solid var(--line); border-radius:2px; padding:20px 20px 22px; position:relative;}
+  .guide-card::before{content:""; position:absolute; left:0; top:16px; bottom:16px; width:2px; background:var(--gold);}
+  .guide-card{padding-left:24px;}
+  .guide-card h4{font-size:14.6px; margin-bottom:8px; font-family:'Source Sans 3'; font-weight:700; color:var(--ink);}
+  .guide-card p{font-size:13.4px; color:var(--ink-soft); line-height:1.58;}
+
+  .faq-list{max-width:840px; margin-top:8px;}
+  .faq-item{border-bottom:1px solid var(--line); padding:20px 0;}
+  .faq-item:first-child{border-top:1px solid var(--line);}
+  .faq-q{font-family:'Source Serif 4'; font-weight:600; font-size:16px; color:var(--ink); margin-bottom:8px; display:flex; gap:10px;}
+  .faq-q .qmark{color:var(--gold-deep); font-family:'IBM Plex Mono',monospace; font-size:14px;}
+  .faq-a{font-size:14.3px; color:var(--ink-soft); padding-left:26px;}
+
+  .venue-body{display:grid; grid-template-columns:1.2fr 1fr; gap:36px; align-items:start;}
+  @media(max-width:860px){.venue-body{grid-template-columns:1fr;}}
+  .venue-body p{margin-bottom:14px; font-size:15.5px;}
+  .venue-facts{background:var(--card); border:1px solid var(--line); padding:4px 0;}
+  .venue-fact{display:flex; justify-content:space-between; gap:16px; padding:13px 20px; border-bottom:1px solid var(--line); font-size:14px;}
+  .venue-fact:last-child{border-bottom:none;}
+  .venue-fact dt{color:var(--ink-soft); font-weight:600;}
+  .venue-fact dd{color:var(--ink); text-align:right;}
+
+  .table-card{
+    background:var(--card); border:1px solid var(--line); border-radius:3px; overflow:hidden;
+    margin-top:18px; max-width:820px; box-shadow:0 1px 3px rgba(11,39,77,0.05);
+  }
+  table{width:100%; border-collapse:collapse; font-size:14.5px;}
+  .cat-table th, .pos-table th{background:var(--night); color:#fff; text-align:left; padding:11px 16px; font-weight:600; font-size:12.5px; text-transform:uppercase; letter-spacing:0.04em;}
+  .cat-table td, .pos-table td{padding:12px 16px; border-bottom:1px solid var(--line);}
+  .cat-table tr:last-child td, .pos-table tr:last-child td{border-bottom:none;}
+  tr:nth-child(even) td{background:var(--paper);}
+
+  /* ---------- timeline (dates) ---------- */
+  .signal-timeline{margin-top:26px; max-width:900px;}
+  .st-row{display:grid; grid-template-columns:150px 26px 1fr; align-items:stretch;}
+  .st-date{font-family:'IBM Plex Mono',monospace; font-weight:700; font-size:13px; color:var(--ink); padding:16px 14px 16px 0; text-align:right;}
+  .st-rail{position:relative; display:flex; justify-content:center;}
+  .st-rail::before{content:""; position:absolute; top:0; bottom:0; left:50%; width:1px; background-image:linear-gradient(var(--line) 60%, transparent 0%); background-size:2px 8px; transform:translateX(-50%);}
+  .st-row:first-child .st-rail::before{top:16px;}
+  .st-row:last-child .st-rail::before{bottom:calc(100% - 32px);}
+  .st-dot{position:relative; z-index:2; width:11px; height:11px; border-radius:50%; background:var(--card); border:2px solid var(--sage); margin-top:16px;}
+  .st-row:last-child .st-dot{background:var(--burgundy); border-color:var(--burgundy); width:13px; height:13px; margin-top:15px; box-shadow:0 0 0 4px rgba(174,75,45,0.14);}
+  .st-content{padding:12px 0 24px 18px;}
+  .st-row:last-child .st-content{padding-bottom:14px;}
+  .st-label{font-size:14.5px; color:var(--ink);}
+  .st-row:last-child .st-label{font-weight:700; color:var(--burgundy-deep);}
+
+  .schedule-table th{background:var(--night); color:#fff; text-align:left; padding:11px 16px; font-size:12.5px; text-transform:uppercase; letter-spacing:0.04em;}
+  .schedule-table td{padding:12px 16px; border-bottom:1px solid var(--line);}
+  .schedule-table td:first-child{font-weight:600; color:var(--ink); white-space:nowrap; width:150px; font-family:'IBM Plex Mono', monospace; font-size:13.3px;}
+
+  .award-list{display:flex; flex-wrap:wrap; gap:10px; margin-top:18px;}
+  .award-list span{
+    font-size:13.5px; background:var(--card); border:1px solid var(--line); border-left:3px solid var(--gold);
+    padding:9px 15px; border-radius:2px; color:var(--ink);
+  }
+
+  .people-grid{
+    display:grid; grid-template-columns:repeat(4, 1fr); gap:28px 20px; margin-top:8px;
+  }
+  @media(max-width:900px){.people-grid{grid-template-columns:repeat(2,1fr);}}
+  @media(max-width:480px){.people-grid{grid-template-columns:1fr;}}
+  .person{text-align:left;}
+  .avatar{
+    width:100%; aspect-ratio:1/1; border-radius:3px;
+    display:flex; align-items:center; justify-content:center;
+    font-family:'Fraunces'; font-weight:600; font-size:27px; color:#fff;
+    margin-bottom:12px; position:relative; overflow:hidden;
+  }
+  .avatar::after{content:""; position:absolute; inset:0; background:linear-gradient(135deg, rgba(255,255,255,0.18), transparent 60%);}
+  img.avatar{object-fit:cover; background:var(--paper-deep); border:1px solid var(--line);}
+  .person h4{font-size:14.8px; font-family:'IBM Plex Sans'; color:var(--ink); font-weight:700; margin-bottom:2px;}
+  .person .role{font-size:11.2px; color:var(--gold-deep); font-weight:700; text-transform:uppercase; letter-spacing:0.05em; margin-bottom:5px;}
+  .person .affil{font-size:12.6px; color:var(--ink-soft); margin-bottom:7px; line-height:1.42;}
+  .person .bio{font-size:12.4px; color:var(--ink-soft); line-height:1.52;}
+  .person .country{font-size:11.5px; color:var(--sage-deep); font-weight:600; margin-top:7px; display:block;}
+  .person .tentative{font-size:10.2px; color:var(--burgundy-deep); font-weight:700; text-transform:uppercase; letter-spacing:0.03em; margin-top:5px; display:inline-block; border:1px solid var(--burgundy); padding:1px 6px; border-radius:2px;}
+
+  .sub-head{font-size:15.5px; color:var(--ink); margin:34px 0 6px; font-family:'Fraunces'; font-weight:600; display:flex; align-items:center; gap:8px;}
+
+  .info-cols{display:grid; grid-template-columns:1fr 1fr 1fr; gap:32px; margin-top:10px;}
+  @media(max-width:820px){.info-cols{grid-template-columns:1fr;}}
+  .info-cols h4{font-size:14.8px; color:var(--ink); margin-bottom:9px; display:flex; gap:8px; align-items:center;}
+  .info-cols p{font-size:13.8px; color:var(--ink-soft);}
+
+  footer{background:var(--night); color:#A9BBD1; padding:36px 0; font-size:13.3px; border-top:3px solid transparent; border-image:var(--grad) 1;}
+  footer .wrap{display:flex; justify-content:space-between; flex-wrap:wrap; gap:12px;}
+  footer a{color:#fff;}
+</style>
+</head>
+<body>
+
+<div class="topbar">
+  <div class="wrap">
+    <span>18th Asian Conference on Machine Learning (ACML) 2026 — Melbourne, Australia</span>
+    <a href="mailto:prakrit@iimj.ac.in" class="submit-cta">Submission site coming soon →</a>
+  </div>
+</div>
+
+<div class="banner">
+  <div class="signal-field"></div>
+  <div class="wrap banner-inner">
+    <div class="banner-text">
+      <div class="eyebrow"><span class="mark on-dark pulse"><i></i><i></i><i></i><i></i></span>A Workshop at ACML 2026 · Melbourne, Australia</div>
+      <h1>SustainableML‑Afrasia: efficient and trustworthy machine learning for <em>resource‑constrained, climate‑vulnerable</em> communities across Asia and Africa</h1>
+      <div class="subtitle">A technical machine‑learning workshop on efficient, federated, robust, and trustworthy learning — with Australia as an active third community alongside Asia and Africa.</div>
+      <div class="meta-row">
+        <span>📅 4 December 2026</span>
+        <span>⏰ 09:00–12:30, half‑day track</span>
+        <span>📍 Melbourne, Australia</span>
+        <span>✉️ prakrit@iimj.ac.in · hitika@iitmz.ac.in</span>
+      </div>
+    </div>
+    <div class="net-diagram" aria-hidden="true">
+      <svg viewBox="0 0 340 340">
+        <line x1="90" y1="70" x2="255" y2="110" stroke="#3A567C" stroke-width="1.4" class="net-dash"/>
+        <line x1="255" y1="110" x2="150" y2="260" stroke="#3A567C" stroke-width="1.4" class="net-dash"/>
+        <line x1="150" y1="260" x2="90" y2="70" stroke="#2A425F" stroke-width="1" stroke-dasharray="2 8"/>
+        <circle cx="90" cy="70" r="6" fill="#6E9A7C" class="net-pulse"/>
+        <circle cx="255" cy="110" r="6" fill="#D3B876" class="net-pulse" style="animation-delay:.6s"/>
+        <circle cx="150" cy="260" r="6" fill="#C08088" class="net-pulse" style="animation-delay:1.2s"/>
+        <text x="90" y="52" text-anchor="middle" class="net-node-label">ASIA</text>
+        <text x="255" y="94" text-anchor="middle" class="net-node-label">AUSTRALIA</text>
+        <text x="150" y="288" text-anchor="middle" class="net-node-label">AFRICA</text>
+      </svg>
+    </div>
+  </div>
+</div>
+
+<div class="submit-strip">
+  <div class="wrap">
+    <span class="label">📄 Submission deadline (tentative) — <b>late September 2026</b>, pending the official ACML 2026 workshop calendar</span>
+    <a href="mailto:prakrit@iimj.ac.in" class="submit-cta">Get notified →</a>
+  </div>
+</div>
+
+<div class="stats">
+  <div class="wrap">
+    <div class="stat"><b class="mono">3</b><span>🌍 Continents in one technical program — Asia, Africa &amp; Australia</span></div>
+    <div class="stat"><b class="mono">2+</b><span>🔍 Double‑blind reviews per submission</span></div>
+    <div class="stat"><b class="mono">N/A</b><span>📚 Non‑archival — no conflict with other venues or the ACML main track</span></div>
+  </div>
+</div>
+
+<nav class="tabs">
+  <div class="wrap">
+    <a href="#overview">Overview</a>
+    <a href="#why">Why Submit</a>
+    <a href="#topics">Topics</a>
+    <a href="#cfp-cat">Call for Papers</a>
+    <a href="#guidelines">Submission Guidelines</a>
+    <a href="#dates">Important Dates</a>
+    <a href="#program">Program</a>
+    <a href="#venue">Venue</a>
+    <a href="#speakers">Speakers</a>
+    <a href="#organizers">Organizers</a>
+    <a href="#faq">FAQ</a>
+    <a href="#sponsors">Registration &amp; Community</a>
+  </div>
+</nav>
+
+<section id="overview">
+  <div class="wrap">
+    <h2 class="sec-title"><span class="mark"><i></i><i></i><i></i><i></i></span>Overview</h2>
+    <div class="overview-body">
+      <div>
+        <p>Across Asia and Africa, rapid growth in affordable sensing technologies, mobile computing, and digital public infrastructure has created unprecedented opportunities for deploying machine learning in healthcare, agriculture, environmental monitoring, education, logistics, and public services — but these deployments expose limitations in many existing learning paradigms.</p>
+        <p>Federated optimization algorithms often assume reliable, synchronous communication despite highly intermittent connectivity. Deep learning models trained on curated Global‑North datasets frequently generalize poorly to geographically and demographically diverse populations. State‑of‑the‑art architectures are commonly evaluated without regard for realistic computational, memory, latency, or energy constraints. SustainableML‑Afrasia treats these constraints as drivers of new learning algorithms, optimization methods, model architectures, and evaluation protocols — not engineering afterthoughts.</p>
+        <p>Hosting ACML 2026 in Melbourne gives us the chance to build sustained collaboration across a third community too: Australia has strengths in ML, computer vision, optimization, and environmental and agricultural AI, while remote and regional communities face the same intermittent‑connectivity and resource‑constrained edge challenges — bushfire prediction, precision agriculture, biodiversity monitoring, disaster response — that motivate this workshop.</p>
+      </div>
+      <div class="callout">
+        <b>🔆 The gap this workshop targets</b>
+        This is fundamentally a machine‑learning methodology workshop. We're looking for algorithmic advances — in efficient learning, federated optimization, robustness, and trustworthy AI — that emerge from real resource constraints, evaluated against realistic assumptions rather than idealized benchmarks.
+      </div>
+    </div>
+  </div>
+</section>
+
+<section id="why" class="alt">
+  <div class="wrap">
+    <h2 class="sec-title"><span class="mark"><i></i><i></i><i></i><i></i></span>Why Submit Here</h2>
+    <p class="lede">A venue built around the technical questions that matter to this research community.</p>
+    <div class="why-grid">
+      <div class="why-card">
+        <span class="idx">01 / algorithmic depth</span>
+        <h4>Not just application</h4>
+        <p>Reviewers are looking for genuine methodological contributions — new optimization methods, architectures, and evaluation protocols — with deployment context as motivation, not the whole story.</p>
+      </div>
+      <div class="why-card">
+        <span class="idx">02 / shared table</span>
+        <h4>Three communities, one room</h4>
+        <p>Asia‑, Africa‑, and Australia‑based ML researchers rarely share a program despite facing closely related technical constraints.</p>
+      </div>
+      <div class="why-card">
+        <span class="idx">03 / applied grounding</span>
+        <h4>Academia meets deployment</h4>
+        <p>An academia–industry panel and invited talks connect algorithmic research directly with practitioners translating it into production systems.</p>
+      </div>
+      <div class="why-card">
+        <span class="idx">04 / low friction</span>
+        <h4>Low‑risk submission</h4>
+        <p>Short papers and extended abstracts are welcome, don't conflict with the ACML main track or other venues, and are hosted on the workshop website.</p>
+      </div>
+    </div>
+  </div>
+</section>
+
+<section id="topics">
+  <div class="wrap">
+    <h2 class="sec-title"><span class="mark"><i></i><i></i><i></i><i></i></span>Topics of Interest</h2>
+    <p class="lede">Topics include, but are not limited to:</p>
+    <div class="topics-list">
+      <div class="topic-item"><h4>⚙️ Efficient &amp; data‑efficient ML</h4><p>Pruning, quantization, distillation, neural architecture search, efficient architecture design, hardware‑aware learning, coreset selection, few‑shot and low‑label learning.</p></div>
+      <div class="topic-item"><h4>🕸️ Federated, distributed &amp; continual learning</h4><p>Learning over heterogeneous clients under communication and systems constraints, split computing, communication‑efficient federated optimization, continual learning under concept drift.</p></div>
+      <div class="topic-item"><h4>🎯 Robustness &amp; distribution shift</h4><p>Domain adaptation and generalization for regional data shift; fairness and robustness evaluation under non‑IID and low‑resource conditions.</p></div>
+      <div class="topic-item"><h4>🗣️ Low‑resource &amp; multilingual learning</h4><p>Multilingual and low‑literacy NLP, participatory and community‑in‑the‑loop data collection, learning from noisy, weakly labeled, or incomplete data.</p></div>
+      <div class="topic-item"><h4>🔋 Sustainable &amp; energy‑aware learning</h4><p>Carbon/energy‑aware training and inference, and optimization for sustainable machine learning.</p></div>
+      <div class="topic-item"><h4>🔐 Trustworthy ML for deployment</h4><p>Privacy‑preserving analytics, cross‑border data governance, secure and maintainable model updates.</p></div>
+      <div class="topic-item"><h4>🌾 ML for climate, healthcare &amp; societal impact</h4><p>Prediction under data scarcity, precision agriculture, low‑resource healthcare AI, disaster forecasting, environmental monitoring, and other applications motivating new ML methodology.</p></div>
+      <div class="topic-item"><h4>🧠 Foundation models &amp; representation learning</h4><p>Parameter‑efficient fine‑tuning, self‑supervised learning, multimodal learning, retrieval‑augmented learning, adaptation under limited supervision.</p></div>
+    </div>
+  </div>
+</section>
+
+<section id="cfp-cat" class="alt">
+  <div class="wrap">
+    <h2 class="sec-title"><span class="mark"><i></i><i></i><i></i><i></i></span>Call for Papers</h2>
+    <p class="lede">We invite original technical contributions on data‑efficient training, federated and continual learning under heterogeneous connectivity, model compression for microcontroller‑class hardware, and robust learning under regional distribution shift — with a particular focus on deployment contexts across Asia and Africa. We especially welcome contributions from Asia‑based labs working on efficient and federated learning, from African researchers and practitioners working on deployment‑grounded case studies, and from the local Melbourne and Australian ML community.</p>
+
+    <div class="callout" style="max-width:820px; margin-bottom:22px;">
+      <b>📮 Submission site</b>
+      Submissions will be handled via OpenReview. The direct link, along with formatting and length guidelines, will be published on this website ahead of the deadline — check back or contact the organizers to be notified.
+    </div>
+
+    <div class="table-card">
+      <table class="cat-table">
+        <thead><tr><th>Category</th><th>Notes</th></tr></thead>
+        <tbody>
+          <tr><td>📝 Short papers</td><td>Double‑blind, ≥2 reviews</td></tr>
+          <tr><td>📄 Extended abstracts</td><td>Double‑blind, ≥2 reviews</td></tr>
+        </tbody>
+      </table>
+    </div>
+    <p class="lede" style="margin-top:18px;">Both categories are reviewed double‑blind by a Program Committee spanning Asia, Africa, and Australia, evaluated on relevance, originality, technical soundness, clarity, and potential impact. Accepted submissions are presented as oral talks or posters, hosted on the workshop website, and do not conflict with the ACML 2026 main conference track or other venue submissions.</p>
+
+    <div class="sub-head">🏆 Awards</div>
+    <div class="award-list">
+      <span>🏆 Best Paper</span>
+      <span>🥈 Best Poster / Demo</span>
+      <span>🎓 Best Student Contribution</span>
+    </div>
+  </div>
+</section>
+
+<section id="guidelines">
+  <div class="wrap">
+    <h2 class="sec-title"><span class="mark"><i></i><i></i><i></i><i></i></span>Submission Guidelines</h2>
+    <p class="lede">Formal formatting requirements will be confirmed alongside the OpenReview link; the guidance below reflects our current plan and is subject to minor revision.</p>
+    <div class="guide-grid">
+      <div class="guide-card">
+        <h4>📐 Length &amp; format</h4>
+        <p>Short papers: up to 4 pages excluding references and appendices. Extended abstracts: up to 2 pages excluding references. Submissions should follow the ACML/JMLR‑style two‑column template; a LaTeX and Word template will be linked here.</p>
+      </div>
+      <div class="guide-card">
+        <h4>🕶️ Anonymity</h4>
+        <p>All submissions must be fully anonymized for double‑blind review — no author names, affiliations, or identifying acknowledgments in the submitted PDF. Author identities are revealed to reviewers only after decisions are finalized.</p>
+      </div>
+      <div class="guide-card">
+        <h4>♻️ Dual submission</h4>
+        <p>Non‑archival: accepted work may also be submitted, or have already been submitted, elsewhere, including the ACML 2026 main conference track. We only ask that you note this in your submission's comments field.</p>
+      </div>
+      <div class="guide-card">
+        <h4>🧾 Supplementary material</h4>
+        <p>Optional appendices, code, and datasets may be linked or attached. Reviewers are not obligated to consult supplementary material, so the core contribution should be clear from the main text alone.</p>
+      </div>
+      <div class="guide-card">
+        <h4>🗣️ Presentation format</h4>
+        <p>At least one author of each accepted submission is expected to attend the workshop in person to present. Accepted papers are presented as a contributed oral talk or a poster, assigned based on programme fit and available slots.</p>
+      </div>
+      <div class="guide-card">
+        <h4>🌐 Language &amp; scope</h4>
+        <p>Submissions must be written in English. We welcome case studies and deployment reports as well as purely theoretical or algorithmic contributions, provided the technical contribution is clearly articulated.</p>
+      </div>
+    </div>
+  </div>
+</section>
+
+<section id="dates" class="alt">
+  <div class="wrap">
+    <h2 class="sec-title"><span class="mark"><i></i><i></i><i></i><i></i></span>Important Dates</h2>
+    <p class="lede">Tentative — pending confirmation against the official ACML 2026 workshop‑track calendar.</p>
+    <div class="signal-timeline">
+      <div class="st-row">
+        <div class="st-date">Late Sep 2026</div>
+        <div class="st-rail"><div class="st-dot"></div></div>
+        <div class="st-content"><span class="st-label">📄 Submission deadline</span></div>
+      </div>
+      <div class="st-row">
+        <div class="st-date">Mid‑Oct 2026</div>
+        <div class="st-rail"><div class="st-dot"></div></div>
+        <div class="st-content"><span class="st-label">📬 Notification of acceptance</span></div>
+      </div>
+      <div class="st-row">
+        <div class="st-date">Late Oct 2026</div>
+        <div class="st-rail"><div class="st-dot"></div></div>
+        <div class="st-content"><span class="st-label">🖨️ Camera‑ready submission</span></div>
+      </div>
+      <div class="st-row">
+        <div class="st-date">4 Dec 2026</div>
+        <div class="st-rail"><div class="st-dot"></div></div>
+        <div class="st-content"><span class="st-label">🎤 Workshop — Melbourne, Australia</span></div>
+      </div>
+    </div>
+  </div>
+</section>
+
+<section id="program">
+  <div class="wrap">
+    <h2 class="sec-title"><span class="mark"><i></i><i></i><i></i><i></i></span>Program Schedule</h2>
+    <p class="lede">A half‑day, in‑person program combining a framing talk, two invited talks, a poster session, contributed orals, and an academia–industry panel.</p>
+    <div class="table-card">
+      <table class="schedule-table">
+        <thead><tr><th>Time</th><th>Activity</th></tr></thead>
+        <tbody>
+          <tr><td>09:00–09:10</td><td>👋 Opening remarks &amp; framing talk</td></tr>
+          <tr><td>09:10–09:50</td><td>🎤 Invited Talk 1 — Asia‑based ML researcher</td></tr>
+          <tr><td>09:50–10:30</td><td>🎤 Invited Talk 2 — industry / deployment</td></tr>
+          <tr><td>10:30–11:00</td><td>☕ Coffee break / poster session</td></tr>
+          <tr><td>11:00–11:40</td><td>💡 Contributed oral presentations</td></tr>
+          <tr><td>11:40–12:20</td><td>🏭 Panel — academia–industry perspectives</td></tr>
+          <tr><td>12:20–12:30</td><td>🏆 Closing remarks</td></tr>
+        </tbody>
+      </table>
+    </div>
+  </div>
+</section>
+
+<section id="venue" class="alt">
+  <div class="wrap">
+    <h2 class="sec-title"><span class="mark"><i></i><i></i><i></i><i></i></span>Venue</h2>
+    <div class="venue-body">
+      <div>
+        <p>SustainableML‑Afrasia is held as a half‑day workshop track within ACML 2026, the 18th Asian Conference on Machine Learning, hosted in Melbourne, Australia. Full workshop‑day logistics, room assignments, and the local venue address will follow the ACML 2026 conference schedule and be published closer to the event.</p>
+        <p>The timing places ACML — and this workshop — in the same week as NeurIPS 2026 in Sydney, making a short domestic connection possible for attendees continuing on to the wider December conference circuit in the region.</p>
+      </div>
+      <dl class="venue-facts">
+        <div class="venue-fact"><dt>Host conference</dt><dd>ACML 2026 (18th edition)</dd></div>
+        <div class="venue-fact"><dt>Conference dates</dt><dd>1–4 December 2026</dd></div>
+        <div class="venue-fact"><dt>Workshop date</dt><dd>4 December 2026</dd></div>
+        <div class="venue-fact"><dt>City</dt><dd>Melbourne, Australia</dd></div>
+        <div class="venue-fact"><dt>Format</dt><dd>In‑person, half‑day</dd></div>
+        <div class="venue-fact"><dt>Recordings</dt><dd>Provided where possible</dd></div>
+      </dl>
+    </div>
+  </div>
+</section>
+
+<section id="speakers">
+  <div class="wrap">
+    <h2 class="sec-title"><span class="mark"><i></i><i></i><i></i><i></i></span>Invited Speakers</h2>
+    <p class="lede">A slate built to span all three communities this workshop bridges — Asia, Africa, and the local Australian host community — balancing academic algorithmic depth with industry deployment perspective.</p>
+
+    <div class="people-grid">
+      <div class="person">
+        <img class="avatar" src="Teruaki Yokoyama.jpg" alt="Teruaki Yokoyama">
+        <h4>Prof. Teruaki Yokoyama</h4>
+        <div class="role">Academia &amp; Government R&amp;D</div>
+        <div class="affil">Kobe Institute of Computing / NICT</div>
+        <p class="bio">AI, cybersecurity, trustworthy computing, and distributed systems; leads national AI talent‑development initiatives including SecHack365.</p>
+        <span class="country">🇯🇵 Japan</span>
+      </div>
+      <div class="person">
+        <div class="avatar" style="background:linear-gradient(135deg,#3F5B47,#1B2E4A);">YC</div>
+        <h4>Prof. Yong‑Sheng Chen</h4>
+        <div class="role">Academia</div>
+        <div class="affil">National Yang Ming Chiao Tung University</div>
+        <p class="bio">AI, computer vision, medical image analysis, and multimedia computing; robust and data‑efficient learning for real‑world applications.</p>
+        <span class="country">🇹🇼 Taiwan</span>
+        <span class="tentative">Tentative</span>
+      </div>
+      <div class="person">
+        <div class="avatar" style="background:linear-gradient(135deg,#856421,#1B2E4A);">ID</div>
+        <h4>Ishan Datta</h4>
+        <div class="role">Industry</div>
+        <div class="affil">Strategic Partner Manager, Orgvue</div>
+        <p class="bio">15+ years in enterprise technology and strategic partnerships across Asia‑Pacific; bridges research innovation with large‑scale industrial deployment.</p>
+        <span class="country">🇦🇺 Australia</span>
+      </div>
+      <div class="person">
+        <img class="avatar" src="Ramadhani S. Sinde.png" alt="Ramadhani S. Sinde">
+        <h4>Prof. Ramadhani S. Sinde</h4>
+        <div class="role">Academia &amp; Governance</div>
+        <div class="affil">University of Dar es Salaam</div>
+        <p class="bio">Intelligent decision support, knowledge discovery, and AI for sustainable development; capacity building across academia, government, and international bodies.</p>
+        <span class="country">🇹🇿 Tanzania</span>
+      </div>
+      <div class="person">
+        <img class="avatar" src="Kashish Chawla.JPG" alt="Kashish Chawla">
+        <h4>Kashish Chawla</h4>
+        <div class="role">Industry</div>
+        <div class="affil">Associate Director, Accenture Japan</div>
+        <p class="bio">12+ years in enterprise AI, intelligent automation, and large‑scale solution architecture; translating ML into production environments.</p>
+        <span class="country">🇯🇵 Japan</span>
+      </div>
+    </div>
+  </div>
+</section>
+
+<section id="organizers" class="alt">
+  <div class="wrap">
+    <h2 class="sec-title"><span class="mark"><i></i><i></i><i></i><i></i></span>Organizing Committee</h2>
+    <p class="lede">A five‑person committee spanning India, Tanzania, and the ACML host country, Australia — combining academic, industry, and product‑management backgrounds.</p>
+
+    <div class="people-grid">
+      <div class="person">
+        <img class="avatar" src="Prakrit Silal.jpg" alt="Prakrit Silal">
+        <h4>Dr. Prakrit Silal</h4>
+        <div class="role">General Co‑Chair</div>
+        <div class="affil">Assistant Professor, IIM Jammu</div>
+        <p class="bio">AI‑enabled information systems, digital governance, and intelligent decision support.</p>
+        <span class="country">🇮🇳 India</span>
+      </div>
+      <div class="person">
+        <img class="avatar" src="Hitika Tiwari.jpg" alt="Hitika Tiwari">
+        <h4>Dr. Hitika Tiwari</h4>
+        <div class="role">General Co‑Chair</div>
+        <div class="affil">Assistant Professor, IIT Madras Zanzibar Campus</div>
+        <p class="bio">Computer vision, deep learning, efficient and self‑supervised ML. Dual PhD (NYCU Taiwan &amp; IIT Kanpur); former Research Scientist, Rakuten Group.</p>
+        <span class="country">🇹🇿 Tanzania</span>
+      </div>
+      <div class="person">
+        <div class="avatar" style="background:linear-gradient(135deg,#3F5B47,#856421);">EA</div>
+        <h4>Dr. Eshika Aggarwal</h4>
+        <div class="role">Program Co‑Chair</div>
+        <div class="affil">Assistant Professor, IIM Jammu</div>
+        <p class="bio">AI‑enabled decision support and enterprise AI adoption; nearly a decade of industry experience at IBM, TCS, and NIIT Technologies.</p>
+        <span class="country">🇮🇳 India</span>
+      </div>
+      <div class="person">
+        <div class="avatar" style="background:linear-gradient(135deg,#1B2E4A,#A9812F);">SD</div>
+        <h4>Srijani Dutta</h4>
+        <div class="role">Co‑organizer, Australia Liaison</div>
+        <div class="affil">Product Management, WiseTech Global</div>
+        <p class="bio">14+ years building AI‑enabled products; ML product strategy, generative AI, and academia–industry collaboration.</p>
+        <span class="country">🇦🇺 Australia</span>
+      </div>
+      <div class="person">
+        <img class="avatar" src="Aparna.jpeg" alt="Rashi Niyas P.">
+        <h4>Rashi Niyas P.</h4>
+        <div class="role">Publications &amp; Demo Track Chair</div>
+        <div class="affil">AI Engineer, Systech</div>
+        <p class="bio">Computer vision, deep learning, healthcare AI, and efficient machine learning.</p>
+        <span class="country">🇮🇳 India</span>
+      </div>
+    </div>
+  </div>
+</section>
+
+<section id="faq">
+  <div class="wrap">
+    <h2 class="sec-title"><span class="mark"><i></i><i></i><i></i><i></i></span>Frequently Asked Questions</h2>
+    <div class="faq-list">
+      <div class="faq-item">
+        <div class="faq-q"><span class="qmark">Q.</span>Can I submit work that is also under review at the ACML 2026 main conference?</div>
+        <div class="faq-a">Yes. The workshop is non‑archival and does not conflict with the ACML main track, other workshops, or external venues — just note this in your submission's comments field.</div>
+      </div>
+      <div class="faq-item">
+        <div class="faq-q"><span class="qmark">Q.</span>Do I need to register for ACML 2026 separately to attend the workshop?</div>
+        <div class="faq-a">The workshop is held as part of the ACML 2026 program, so attendance follows standard ACML conference registration. Details will be linked here once the ACML 2026 registration portal opens.</div>
+      </div>
+      <div class="faq-item">
+        <div class="faq-q"><span class="qmark">Q.</span>Is remote presentation possible if I can't travel to Melbourne?</div>
+        <div class="faq-a">The workshop is designed as an in‑person, half‑day track, and we ask presenting authors to attend if at all possible. Where that genuinely isn't feasible, contact the organizers in advance — we will do our best to accommodate and will share recordings where possible.</div>
+      </div>
+      <div class="faq-item">
+        <div class="faq-q"><span class="qmark">Q.</span>My work is more of a deployment case study than a novel algorithm — does it fit?</div>
+        <div class="faq-a">Yes, provided the technical contribution is clear. We welcome deployment‑grounded case studies, especially from African and Asian practitioners, as long as the paper articulates what was learned methodologically, not just what was built.</div>
+      </div>
+      <div class="faq-item">
+        <div class="faq-q"><span class="qmark">Q.</span>How can I get involved as a reviewer?</div>
+        <div class="faq-a">We are actively building a Program Committee spanning Asia, Africa, and Australia. Email the organizers with a short note on your research area and availability.</div>
+      </div>
+    </div>
+  </div>
+</section>
+
+<section id="sponsors" class="alt">
+  <div class="wrap">
+    <h2 class="sec-title"><span class="mark"><i></i><i></i><i></i><i></i></span>Registration &amp; Community</h2>
+    <div class="info-cols">
+      <div>
+        <h4>🎟️ Registration</h4>
+        <p>Open to all registered ACML 2026 participants; the contributed‑paper track involves a competitive submission process. We especially encourage local Melbourne and Australian graduate students and industry researchers to attend.</p>
+      </div>
+      <div>
+        <h4>🤝 Diversity &amp; Inclusion</h4>
+        <p>An anti‑harassment and code of conduct policy will be published before the submission deadline. We're actively recruiting Program Committee members from under‑represented institutions across Southeast Asia and Africa, and offering asynchronous access to recordings for accepted authors unable to attend in person.</p>
+      </div>
+      <div>
+        <h4>📬 Stay in Touch</h4>
+        <p>The workshop website and OpenReview link are being finalized. Reach out to the organizers directly to be notified when submissions open, or to discuss Program Committee involvement.</p>
+      </div>
+    </div>
+  </div>
+</section>
+
+
+<footer>
+  <div class="wrap">
+    <span>SustainableML‑Afrasia · ACML 2026 · Melbourne, Australia</span>
+    <span><a href="mailto:prakrit@iimj.ac.in">prakrit@iimj.ac.in</a> · <a href="mailto:hitika@iitmz.ac.in">hitika@iitmz.ac.in</a></span>
+  </div>
+</footer>
+
+</body>
+</html>
